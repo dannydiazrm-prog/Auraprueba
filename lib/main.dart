@@ -1,14 +1,12 @@
+import 'dart:async';
 import 'widgets/responsive.dart';
 import 'widgets/page_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'screens/nueva_venta.dart';
 import 'screens/productos_screen.dart';
 import 'screens/historial_ventas.dart';
-import 'screens/login_screen.dart';
 import 'screens/caja_screen.dart';
 import 'services/firestore_service.dart';
 import 'services/database_service.dart';
@@ -20,10 +18,10 @@ import 'screens/reporte_inventario_screen.dart';
 import 'screens/finanzas_screen.dart';
 import 'screens/ajustes_screen.dart';
 import 'screens/pedidos_screen.dart';
-import 'screens/onboarding_screen.dart';
-import 'screens/terminos_screen.dart';
 import 'dart:io';
 import 'services/personalizacion_service.dart';
+import 'services/demo_seed_service.dart';
+import 'screens/demo_expirado_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -39,9 +37,6 @@ void main() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(const MyApp());
 }
 
@@ -53,39 +48,54 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool? _terminosAceptados;
-  bool? _activada;
-  bool? _onboardingCompletado;
+  static const Duration _duracionDemo = Duration(hours: 2);
+
+  bool _listo = false;
+  bool _expirado = false;
+  Timer? _timerExpiracion;
 
   @override
   void initState() {
     super.initState();
-    _cargarEstado();
+    _prepararDemo();
     PersonalizacionService.instance.cargar();
   }
 
+  @override
+  void dispose() {
+    _timerExpiracion?.cancel();
+    super.dispose();
+  }
 
-    Future<void> _cargarEstado() async {
+  Future<void> _prepararDemo() async {
     final prefs = await SharedPreferences.getInstance();
-    final terminos = prefs.getBool('terminos_aceptados') ?? false;
-    final activada = prefs.getBool('app_activada') ?? false;
-    final subCat = prefs.getString('sub_categoria');
-    if (mounted) {
-      setState(() {
-        _terminosAceptados = terminos;
-        _activada = activada;
-        _onboardingCompletado = subCat != null;
+    await prefs.setString('tipo_negocio', 'Servicios');
+    await prefs.setString('sub_categoria', 'Veterinaria');
+    await prefs.setBool('terminos_aceptados', true);
+    await prefs.setBool('app_activada', true);
+    await DemoSeedService.sembrarSiHaceFalta();
+
+    var inicioStr = prefs.getString('demo_inicio');
+    if (inicioStr == null) {
+      inicioStr = DateTime.now().toIso8601String();
+      await prefs.setString('demo_inicio', inicioStr);
+    }
+    final inicio = DateTime.parse(inicioStr);
+    final transcurrido = DateTime.now().difference(inicio);
+    final restante = _duracionDemo - transcurrido;
+
+    if (restante.isNegative) {
+      if (mounted) setState(() => _expirado = true);
+    } else {
+      _timerExpiracion = Timer(restante, () {
+        if (mounted) setState(() => _expirado = true);
       });
     }
+
+    if (mounted) setState(() => _listo = true);
   }
 
-
-  void _marcarActivada() {
-    setState(() {
-      _activada = true;
-      _onboardingCompletado = false;
-    });
-  }
+  void _marcarDesactivada() {}
 
   void _completarOnboarding() {
     setState(() => _onboardingCompletado = true);
@@ -124,15 +134,11 @@ class _MyAppState extends State<MyApp> {
             ),
             useMaterial3: true,
           ),
-                    home: _terminosAceptados == null || _activada == null || _onboardingCompletado == null
+                    home: !_listo
               ? const Scaffold(body: Center(child: CircularProgressIndicator()))
-              : _terminosAceptados == false
-                  ? TerminosScreen(onAceptado: () => setState(() => _terminosAceptados = true))
-                  : _activada == false
-                      ? LoginScreen(onActivado: _marcarActivada)
-                      : _onboardingCompletado == false
-                          ? OnboardingScreen(onCompletado: _completarOnboarding)
-                          : MainLayout(onCerrarSesion: _marcarDesactivada),
+              : _expirado
+                  ? const DemoExpiradoScreen()
+                  : MainLayout(onCerrarSesion: _marcarDesactivada),
         );
       },
     );

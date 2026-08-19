@@ -352,7 +352,7 @@ class _DetalleVenta extends StatelessWidget {
               Navigator.pop(context);
               final gastosParaEliminar = await db.anularVenta(ventaId, venta);
               for (final gasto in gastosParaEliminar) {
-                await gastosService.eliminarGastoCostoVenta(
+                await db.eliminarGastoCostoVenta(
                   gasto['nombre'],
                   gasto['cantidad'],
                 );

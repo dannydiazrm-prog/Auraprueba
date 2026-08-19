@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.jplabs.auraestandar"
+    namespace = "com.jplabs.auraprueba"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "29.0.14206865"
 
@@ -21,7 +21,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.jplabs.auraestandar"
+        applicationId = "com.jplabs.auraprueba"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

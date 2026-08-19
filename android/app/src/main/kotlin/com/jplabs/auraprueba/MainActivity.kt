@@ -1,4 +1,4 @@
-package com.jplabs.auraestandar
+package com.jplabs.auraprueba
 
 import android.os.Build
 import android.os.Bundle

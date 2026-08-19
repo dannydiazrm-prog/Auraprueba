@@ -534,6 +534,25 @@ class DatabaseService {
     await _emitirGastos();
   }
 
+  Future<void> eliminarGastoCostoVenta(String nombre, int cantidad) async {
+    final descripcion = '$nombre x$cantidad';
+    if (kIsWeb) {
+      _gastosMemoria.removeWhere((g) =>
+          g['automatico'] == true &&
+          g['descripcion'] == descripcion &&
+          g['categoria'] == 'Costo de Venta');
+      await _emitirGastos();
+      return;
+    }
+    final db = await _getDb();
+    await db.delete(
+      'gastos',
+      where: 'automatico = ? AND descripcion = ? AND categoria = ?',
+      whereArgs: [1, descripcion, 'Costo de Venta'],
+    );
+    await _emitirGastos();
+  }
+
   Future<void> eliminarGasto(String id) async {
     if (kIsWeb) {
       _gastosMemoria.removeWhere((g) => g['id'] == id);
