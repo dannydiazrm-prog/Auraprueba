@@ -97,21 +97,6 @@ class _MyAppState extends State<MyApp> {
 
   void _marcarDesactivada() {}
 
-  void _completarOnboarding() {
-    setState(() => _onboardingCompletado = true);
-  }
-
-  void _marcarDesactivada() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('sub_categoria');
-    await prefs.remove('tipo_negocio');
-    await prefs.remove('app_activada');
-    setState(() {
-      _activada = false;
-      _onboardingCompletado = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
