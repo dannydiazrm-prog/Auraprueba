@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import '../services/personalizacion_service.dart';
 import 'package:flutter/services.dart';
 import '../models/producto.dart';
-import '../services/firestore_service.dart';
 import '../services/database_service.dart';
 import 'producto_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,7 +18,6 @@ class ProductosScreen extends StatefulWidget {
 }
 
 class _ProductosScreenState extends State<ProductosScreen> {
-  final FirestoreService _service = FirestoreService();
   final DatabaseService _db = DatabaseService.instance;
   final _buscarCtrl = TextEditingController();
   String _filtro = '';

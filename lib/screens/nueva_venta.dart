@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import '../models/producto.dart';
 import '../models/cliente.dart';
 import '../models/venta.dart';
-import '../services/firestore_service.dart';
 import '../services/database_service.dart';
 import 'cliente_form.dart';
 import '../services/ticket_service.dart';
@@ -20,7 +19,6 @@ class NuevaVentaScreen extends StatefulWidget {
 }
 
 class _NuevaVentaScreenState extends State<NuevaVentaScreen> {
-  final FirestoreService _service = FirestoreService();
   final DatabaseService _db = DatabaseService.instance;
   final _rucCiController = TextEditingController();
   final _buscarProductoController = TextEditingController();

@@ -1,7 +1,6 @@
 import '../widgets/responsive.dart';
 import 'package:flutter/material.dart';
 import '../services/personalizacion_service.dart';
-import '../services/firestore_service.dart';
 import '../services/database_service.dart';
 import '../services/ticket_service.dart';
 import '../services/ajustes_service.dart';
@@ -15,7 +14,6 @@ class HistorialVentasScreen extends StatefulWidget {
 }
 
 class _HistorialVentasScreenState extends State<HistorialVentasScreen> {
-  final FirestoreService _service = FirestoreService();
   final DatabaseService _db = DatabaseService.instance;
   final _buscarCtrl = TextEditingController();
   DateTime? _fechaDesde;
@@ -317,7 +315,6 @@ class _DetalleVenta extends StatelessWidget {
     required this.venta,
     required this.ventaId,
     required this.db,
-    required this.gastosService,
   });
 
   void _anularVenta(BuildContext context) {

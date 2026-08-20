@@ -3,7 +3,6 @@ import "../widgets/page_header.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../services/firestore_service.dart';
 import '../services/database_service.dart';
 
 class FinanzasScreen extends StatefulWidget {
@@ -14,7 +13,6 @@ class FinanzasScreen extends StatefulWidget {
 }
 
 class _FinanzasScreenState extends State<FinanzasScreen> {
-  final FirestoreService _service = FirestoreService();
   final DatabaseService _db = DatabaseService.instance;
   String _periodoSeleccionado = 'Mes';
   DateTime? _fechaDesde;

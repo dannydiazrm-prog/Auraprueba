@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../services/personalizacion_service.dart';
 import 'dart:io';
 import '../models/cliente.dart';
-import '../services/firestore_service.dart';
 import '../services/database_service.dart';
 import 'cliente_form.dart';
 
@@ -17,7 +16,6 @@ class ClientesScreen extends StatefulWidget {
 }
 
 class _ClientesScreenState extends State<ClientesScreen> {
-  final FirestoreService _service = FirestoreService();
   final DatabaseService _db = DatabaseService.instance;
   final _buscarCtrl = TextEditingController();
   String _filtro = '';

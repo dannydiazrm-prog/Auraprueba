@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../services/personalizacion_service.dart';
 import 'package:flutter/services.dart';
 import '../models/producto.dart';
-import '../services/firestore_service.dart';
 import '../services/database_service.dart';
 
 class ProductoForm extends StatefulWidget {
@@ -15,8 +14,7 @@ class ProductoForm extends StatefulWidget {
 }
 
 class _ProductoFormState extends State<ProductoForm> {
-  final _formKey = GlobalKey<FormState>();
-  final FirestoreService _gastosService = FirestoreService();
+  final _formKey = GlobalKey<FormState>(); 
   final DatabaseService _db = DatabaseService.instance;
 
   final _codigoCtrl = TextEditingController();
