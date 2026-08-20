@@ -37,7 +37,7 @@ Section "Install"
     File /r "build\windows\x64\runner\Release\*.*"
 
     # Acceso directo apuntando a facturador.exe
-    CreateShortcut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\facturador.exe" "" "$INSTDIR\facturador.exe" 0
+    CreateShortcut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\aura_estandar.exe" "" "$INSTDIR\aura_estandar.exe" 0
     
     # Desinstalador
     WriteUninstaller "$INSTDIR\uninstall.exe"
@@ -45,7 +45,7 @@ Section "Install"
     # Configuración de registro en Windows
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName" "${APPNAME}"
     WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString" "$INSTDIR\uninstall.exe"
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayIcon" "$INSTDIR\facturador.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayIcon" "$INSTDIR\aura_estandar.exe"
 SectionEnd
 
 Section "Uninstall"

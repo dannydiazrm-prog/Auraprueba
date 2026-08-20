@@ -53,8 +53,7 @@ class _HistorialVentasScreenState extends State<HistorialVentasScreen> {
       builder: (context) => _DetalleVenta(
         venta: venta,
         ventaId: ventaId,
-        db: _db,
-        gastosService: _service,
+        db: _db,    
       ),
     );
   }
@@ -309,7 +308,6 @@ class _DetalleVenta extends StatelessWidget {
   final Map<String, dynamic> venta;
   final String ventaId;
   final DatabaseService db;
-  final FirestoreService gastosService;
 
   const _DetalleVenta({
     required this.venta,
